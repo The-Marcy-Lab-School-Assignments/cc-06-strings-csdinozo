@@ -16,7 +16,10 @@ const reverseZigZagString = (s) => {
 	let za = "";
 
 	if (a.length > 1) {
-		for (let i = 0; i < a.length; i++) za += reverseString(reverseZigZagString(a[i])) + " ";
+		for (let i = 0; i < a.length; i++) {
+			if (a[i].length === 2) za += reverseString(a[i][1].toUpperCase() + a[i][0].toLowerCase()) + " ";
+			else za += reverseString(reverseZigZagString(a[i])) + " ";
+		}
 		return za;
 	}
 
@@ -30,4 +33,6 @@ const reverseZigZagString = (s) => {
 console.log(reverseZigZagString("helloo")) //"oOlLeH"
 console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
 console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
+console.log(reverseZigZagString("i am")); // "mA i"
+console.log(reverseZigZagString("so much to do")); // "mA i"
 
