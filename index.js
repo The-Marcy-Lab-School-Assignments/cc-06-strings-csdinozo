@@ -14,6 +14,22 @@ const reverseZigZagString = (s) => {
 		return l ? c.toUpperCase() : c.toLowerCase();
 	}
 
+	const iterative = (str) => {
+		let i = 0;
+		let ri = reverseString(s);
+		let zi = "";
+		
+		while (i < ri.length) {
+			if ((/[a-zA-Z]/).test(ri[i])) zi += setCase(ri[i], i % 2 !== 0);
+			else zi += ri[i];
+			i++;
+		}
+
+		return zi;
+	}
+
+	if (/[^a-zA-Z]{2,}/.test(s) || s.split(" ").length >= 1000) return iterative(s);
+
 	let r = reverseString(s).trim(); // reversed s
 	let a = r.split(" "); // splits s into components where spaces are identified
 	let z = ""; // zigzag string
@@ -45,10 +61,11 @@ const reverseZigZagString = (s) => {
 	return z;
 }
 
-// console.log(reverseZigZagString("helloo")) //"oOlLeH"
-// console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
-// console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
-// console.log(reverseZigZagString("i am")); // "mA i"
-// console.log(reverseZigZagString("yes yes")); // "sEy SeY"
-// console.log(reverseZigZagString("so much to do")); // "oD oT hCuM oS"
-
+console.log(reverseZigZagString("helloo")) //"oOlLeH"
+console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
+console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
+console.log(reverseZigZagString("i am")); // "mA i"
+console.log(reverseZigZagString("yes yes")); // "sEy SeY"
+console.log(reverseZigZagString("so much to do")); // "oD oT hCuM oS"
+console.log(reverseZigZagString("hello  there"));
+console.log(reverseZigZagString("I'm here"));
