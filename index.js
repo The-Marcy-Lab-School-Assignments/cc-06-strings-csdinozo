@@ -16,19 +16,23 @@ const reverseZigZagString = (s) => {
 
 	const iterative = (str) => {
 		let i = 0;
-		let ri = reverseString(s);
+		let ri = reverseString(str);
 		let zi = "";
+        let ll = false;
 		
 		while (i < ri.length) {
-			if ((/[a-zA-Z]/).test(ri[i])) zi += setCase(ri[i], i % 2 !== 0);
+			if ((/[a-zA-Z]/).test(ri[i])) {
+                zi += setCase(ri[i], ll);
+                ll = !ll;
+            }
 			else zi += ri[i];
 			i++;
-		}
-
+	    }
+        
 		return zi;
 	}
 
-	if (/[^a-zA-Z]{2,}/.test(s) || s.split(" ").length >= 1000) return iterative(s);
+	if (/[^a-zA-Z]{2,}/.test(s) || /[^a-zA-Z\s]/.test(s) || s.split(" ").length >= 1000) return iterative(s);
 
 	let r = reverseString(s).trim(); // reversed s
 	let a = r.split(" "); // splits s into components where spaces are identified
@@ -39,8 +43,8 @@ const reverseZigZagString = (s) => {
 			let o = false; // default assumption: previous word ends with an uppercase char
 			
 			// change if previous word ends with a lowercase character
-			if (i > 0 && a[i - 1][a[i - 1].length - 1] === a[i - 1][a[i - 1].length - 1].toLowerCase()) o = true;
-			if (i > 0 && a[i - 1].length === a[i].length) o = false;
+			if (i > 0 && reverseZigZagString(a[i - 1][a[i - 1].length - 1]) === reverseZigZagString(a[i - 1])[a[i - 1].length - 1].toLowerCase()) o = true;
+            if (i > 0 && a[i - 1].length === a[i].length && o) o = !o;
 
 			if (i === 0 || o) z += reverseZigZagString(reverseString(a[i])); // either first word or word starting with lowercase
 			else {
@@ -67,5 +71,5 @@ console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
 console.log(reverseZigZagString("i am")); // "mA i"
 console.log(reverseZigZagString("yes yes")); // "sEy SeY"
 console.log(reverseZigZagString("so much to do")); // "oD oT hCuM oS"
-console.log(reverseZigZagString("hello  there"));
+console.log(reverseZigZagString("hello   there"));
 console.log(reverseZigZagString("I'm here"));
