@@ -34,11 +34,9 @@ const reverseZigZagString = (s) => {
 
     const recursive = (a, i, start, str, ll, z) => {
         let za = "";
-        // console.log(ll);
-        
         let o = ll? ll.toLowerCase() === ll : false;
 
-        if (i === 0 || o) {
+        if (i === 0 || !o) {
             za += reverseZigZagString(reverseString(a[i])); // either first word or word starting with lowercase
         }
         else {
@@ -83,12 +81,12 @@ const reverseZigZagString = (s) => {
 	return z;
 }
 
-// console.log(reverseZigZagString("helloo")) //"oOlLeH"
-// console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
+console.log(reverseZigZagString("helloo")) //"oOlLeH"
+console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
 console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
 console.log(reverseZigZagString("i am")); // "mA i"
 console.log(reverseZigZagString("yes yes")); // "sEy SeY"
 console.log(reverseZigZagString("so much to do")); // "oD oT hCuM oS"
-// console.log(reverseZigZagString("you up?"))
-// console.log(reverseZigZagString("hello   there"));
-// console.log(reverseZigZagString("I'm here"));
+console.log(reverseZigZagString("you up?"))
+console.log(reverseZigZagString("hello   there"));
+console.log(reverseZigZagString("I'm here"));
