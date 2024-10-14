@@ -34,7 +34,7 @@ const reverseZigZagString = (s) => {
 
     const recursive = (a, i, start, str, ll, z) => {
         let za = "";
-        // if (z.length > 0) ll = str.match(/[a-zA-Z]+/g);
+        // console.log(ll);
         
         let o = ll? ll.toLowerCase() === ll : false;
 
@@ -44,6 +44,7 @@ const reverseZigZagString = (s) => {
         else {
             for (let index = start; index < str.length; index++) {    
 			    za += setCase(a[i][index], o); // even indices uppercase, odd indices lowercase
+				o = !o;
             }
         }
 
@@ -68,8 +69,8 @@ const reverseZigZagString = (s) => {
 			matches = z.match(/[a-zA-Z]+/g);
 
 			if (i === 0) z += recursive(a, i, first, a[i], a[i][first], z);
-            else z += recursive(a, i, first, a[i], matches[matches.length -1], z);
-			
+            else z += recursive(a, i, first, a[i], matches[matches.length -1][matches[matches.length -1].length - 1], z);
+
             if (i < a.length - 1) z += " "; // add space if not last word
 		}
 		return z;
