@@ -32,7 +32,25 @@ const reverseZigZagString = (s) => {
 		return zi;
 	}
 
-	if (/[^a-zA-Z]{2,}/.test(s) || /[^a-zA-Z\s]/.test(s) || s.split(" ").length >= 1000) return iterative(s);
+    const recursive = (a, i, start, str, ll, z) => {
+        let za = "";
+        // if (z.length > 0) ll = str.match(/[a-zA-Z]+/g);
+        
+        let o = ll? ll.toLowerCase() === ll : false;
+
+        if (i === 0 || o) {
+            za += reverseZigZagString(reverseString(a[i])); // either first word or word starting with lowercase
+        }
+        else {
+            for (let index = start; index < str.length; index++) {    
+			    za += setCase(a[i][index], o); // even indices uppercase, odd indices lowercase
+            }
+        }
+
+        return za;
+    }
+
+	if (/[^a-zA-Z]{2,}/.test(s) || /[^a-zA-Z\s]/.test(s) || /[\s]/.test(s) && s.split(" ").length >= 1000) return iterative(s);
 
 	let r = reverseString(s).trim(); // reversed s
 	let a = r.split(" "); // splits s into components where spaces are identified
@@ -40,20 +58,19 @@ const reverseZigZagString = (s) => {
 
 	if (a.length > 1) {
 		for (let i = 0; i < a.length; i++) {
-			let o = false; // default assumption: previous word ends with an uppercase char
+            const first = a[i].search(/[a-zA-Z]/); // the first letter in a[i]
+            if (first === -1) return z;
+
+            for (let index = 0; index < first; index++) {
+                z += a[i][index];
+            }
+
+			matches = z.match(/[a-zA-Z]+/g);
+
+			if (i === 0) z += recursive(a, i, first, a[i], a[i][first], z);
+            else z += recursive(a, i, first, a[i], matches[matches.length -1], z);
 			
-			// change if previous word ends with a lowercase character
-			if (i > 0 && reverseZigZagString(a[i - 1][a[i - 1].length - 1]) === reverseZigZagString(a[i - 1])[a[i - 1].length - 1].toLowerCase()) o = true;
-            if (i > 0 && a[i - 1].length === a[i].length && o) o = !o;
-
-			if (i === 0 || o) z += reverseZigZagString(reverseString(a[i])); // either first word or word starting with lowercase
-			else {
-				for (let index = 0; index < a[i].length; index++) {
-					z += setCase(a[i][index], index % 2 === 0); // even indices uppercase, odd indices lowercase
-				}
-			}
-
-			if (i < a.length - 1) z += " "; // add space if not last word
+            if (i < a.length - 1) z += " "; // add space if not last word
 		}
 		return z;
 	}
@@ -65,11 +82,12 @@ const reverseZigZagString = (s) => {
 	return z;
 }
 
-console.log(reverseZigZagString("helloo")) //"oOlLeH"
-console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
+// console.log(reverseZigZagString("helloo")) //"oOlLeH"
+// console.log(reverseZigZagString("Fellows"))    //"sWoLlEf"
 console.log(reverseZigZagString("Code Challenge"))  //"eGnElLaHc EdOc"
 console.log(reverseZigZagString("i am")); // "mA i"
 console.log(reverseZigZagString("yes yes")); // "sEy SeY"
 console.log(reverseZigZagString("so much to do")); // "oD oT hCuM oS"
-console.log(reverseZigZagString("hello   there"));
-console.log(reverseZigZagString("I'm here"));
+// console.log(reverseZigZagString("you up?"))
+// console.log(reverseZigZagString("hello   there"));
+// console.log(reverseZigZagString("I'm here"));
